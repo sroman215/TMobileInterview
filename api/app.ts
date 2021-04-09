@@ -11,7 +11,7 @@ app.get('/api', (req, res) => {
 })
 
 // Default route used to serve the frontend
-app.use('/', express.static(path.join(__dirname, '/client/dist')));
+app.use('/', express.static(path.join(__dirname, '../client')));
 
 
 // Start listening on the port
