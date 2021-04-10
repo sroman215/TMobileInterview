@@ -8,13 +8,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'client';
+  message = '';
 
   constructor(private http: HttpClient) {
 
   }
 
   public async clickButton() {
-    const val = await this.http.get('/api').toPromise()
+    const val: any = await this.http.get('/api').toPromise()
     console.log(val)
+    this.message = val.message
+  }
+
+  public clearButton() {
+    this.message = ''
   }
 }
