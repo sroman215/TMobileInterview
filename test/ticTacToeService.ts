@@ -27,7 +27,7 @@ describe('TicTacToeService', () => {
     })
 
     it('should throw if someone tries to go twice in a row', () => {
-      service.placeMove(0, 0, 0)
+      service.placeMove(0, 0, 0) 
       expect(() => service.placeMove(0, 1, 1)).to.throw();
     })
 
