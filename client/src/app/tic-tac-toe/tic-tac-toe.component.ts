@@ -11,6 +11,13 @@ import { Move } from "../../../../api/Models/Move";
 export class TicTacToeComponent {
 
   message = '';
+  currentPlayerTurn: number = 0;
+  winner: number;
+
+  public personMap: Map<number, string> = new Map([
+    [0, 'X'],
+    [1, 'O']
+])
 
   constructor(private http: HttpClient) {
 
@@ -22,13 +29,18 @@ export class TicTacToeComponent {
 
   public async getGame() {
     const val: Game = <Game>await this.http.get('/api/ttt/game').toPromise()
+    this.currentPlayerTurn = val.playerCurrentMove;
     this.message = JSON.stringify(val)
   }
 
   public async makeMove(xLocation: number, yLocation: number) {
     try {
-      const reqObj: Move = {personId: 0, xLocation: xLocation, yLocation: yLocation}
+      const reqObj: Move = {personId: this.currentPlayerTurn, xLocation: xLocation, yLocation: yLocation}
       const val: Game = <Game>await this.http.post('/api/ttt/makemove', reqObj).toPromise(); 
+      this.currentPlayerTurn = val.playerCurrentMove;
+      if (val.winner) {
+        this.winner = val.playerLastMove;
+      }
       this.message = JSON.stringify(val)  
     } catch (err) {
       console.log(err.error)
@@ -38,6 +50,8 @@ export class TicTacToeComponent {
 
   public async clearButton() {
     const val: Game = <Game>await this.http.delete('/api/ttt/').toPromise()
+    this.currentPlayerTurn = val.playerCurrentMove;
+    this.winner = undefined;
     this.message = JSON.stringify(val)
   }
 

@@ -1,5 +1,27 @@
-<button (click)=clickButton()>Button</button>
-<button (click)=clearButton()>Clear</button>
-<button (click)=makeMove(1,1)>Make Move</button>
+<div>
+    <button (click)=clickButton()>Button</button>
+    <button (click)=clearButton()>Clear</button>
+</div>
+
+<div>
+    <button (click)=makeMove(0,0)>Make Move</button>
+    <button (click)=makeMove(1,0)>Make Move</button>
+    <button (click)=makeMove(2,0)>Make Move</button>
+</div>
+<div>
+    <button (click)=makeMove(0,1)>Make Move</button>
+    <button (click)=makeMove(1,1)>Make Move</button>
+    <button (click)=makeMove(2,1)>Make Move</button>
+</div>
+<div>
+    <button (click)=makeMove(0,2)>Make Move</button>
+    <button (click)=makeMove(1,2)>Make Move</button>
+    <button (click)=makeMove(2,2)>Make Move</button>
+</div>
+
+
+<h1 *ngIf="winner == undefined">Currently Player {{currentPlayerTurn + 1}}'s Turn</h1> 
+<h1 *ngIf="winner != undefined">Game Over</h1>
 
 <p>{{message}}</p>
+<h2 *ngIf="winner != undefined">Player {{winner + 1}} won!</h2>
