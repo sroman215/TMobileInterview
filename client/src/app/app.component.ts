@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 
 @Component({
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'client';
+
+  constructor(private http: HttpClient) {
+
+  }
+
+  public async clickButton() {
+    const val = await this.http.get('/api').toPromise()
+    console.log(val)
+  }
 }

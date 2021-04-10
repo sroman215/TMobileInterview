@@ -1,13 +1,14 @@
 
 import * as express from "express";
 import path = require("path")
+import { Response, Request } from "express";
 
 const app = express()
 const port = 3000
 
 // API layer to hit via the frontend or via brower
-app.get('/api', (req, res) => {
-    res.send('Hello World BIG WORLD!')
+app.get('/api', (req: Request, res: Response) => {
+    res.status(200).json({message: 'HELLO WORLD'});
 })
 
 // Default route used to serve the frontend
