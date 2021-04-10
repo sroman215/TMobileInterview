@@ -1,4 +1,5 @@
 import { Response, Request } from "express";
+import { Move } from "../Models/Move";
 import { TicTacToeService } from "../Services/tictactoeService";
 
 export class TicTacToeRouter {
@@ -10,11 +11,16 @@ export class TicTacToeRouter {
     }
 
     public makeMove(req: Request, res: Response) {
+        const opts: Move = <Move> req.body;
         try {
-            const game = this.tttService.placeMove(0, 0, 0)
+            const game = this.tttService.placeMove(opts.personId, opts.xLocation, opts.yLocation)
             res.status(200).json(game)
         } catch (err) {
             res.status(500).json(err)
         }
+    }
+
+    public resetGame(req: Request, res: Response) {
+        res.status(200).json(this.tttService.startGame())
     }
 }

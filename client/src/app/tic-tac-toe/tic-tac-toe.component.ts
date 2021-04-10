@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Game } from "../../../../api/Models/Game";
+import { Move } from "../../../../api/Models/Move";
 
 @Component({
   selector: 'app-tic-tac-toe',
@@ -15,13 +17,23 @@ export class TicTacToeComponent {
   }
 
   public async clickButton() {
-    const val: any = await this.http.get('/api').toPromise()
-    console.log(val)
-    this.message = val.message
+    await this.getGame();
   }
 
-  public clearButton() {
-    this.message = ''
+  public async getGame() {
+    const val: Game = <Game>await this.http.get('/api/ttt/game').toPromise()
+    this.message = JSON.stringify(val)
+  }
+
+  public async makeMove() {
+    const reqObj: Move = {personId: 0, xLocation: 1, yLocation: 1}
+    const val: Game = <Game>await this.http.post('/api/ttt/makemove', reqObj).toPromise(); 
+    this.message = JSON.stringify(val)  
+  }
+
+  public async clearButton() {
+    const val: Game = <Game>await this.http.delete('/api/ttt/').toPromise()
+    this.message = JSON.stringify(val)
   }
 
 }
