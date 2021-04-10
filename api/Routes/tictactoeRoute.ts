@@ -16,7 +16,7 @@ export class TicTacToeRouter {
             const game = this.tttService.placeMove(opts.personId, opts.xLocation, opts.yLocation)
             res.status(200).json(game)
         } catch (err) {
-            res.status(500).json(err)
+            res.status(500).json(err.message)
         }
     }
 

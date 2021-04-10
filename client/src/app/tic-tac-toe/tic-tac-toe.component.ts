@@ -25,10 +25,15 @@ export class TicTacToeComponent {
     this.message = JSON.stringify(val)
   }
 
-  public async makeMove() {
-    const reqObj: Move = {personId: 0, xLocation: 1, yLocation: 1}
-    const val: Game = <Game>await this.http.post('/api/ttt/makemove', reqObj).toPromise(); 
-    this.message = JSON.stringify(val)  
+  public async makeMove(xLocation: number, yLocation: number) {
+    try {
+      const reqObj: Move = {personId: 0, xLocation: xLocation, yLocation: yLocation}
+      const val: Game = <Game>await this.http.post('/api/ttt/makemove', reqObj).toPromise(); 
+      this.message = JSON.stringify(val)  
+    } catch (err) {
+      console.log(err.error)
+      this.message = err.error 
+    }
   }
 
   public async clearButton() {
