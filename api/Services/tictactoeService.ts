@@ -7,25 +7,34 @@ export class TicTacToeService {
     public boardSize: number = 3;
     public board: Array<Array<string>> = new Array(3);
     public currentPlayerTurn: number = 0;
+    public lastPlayerTurn: number= 1;
     public personMap: Map<number, string> = new Map([
         [0, 'X'],
         [1, 'O']
     ])
 
+    private readonly verticalWinningCombos = [[0, 3, 6], [1, 4, 7], [2, 5, 8]];
+    private readonly horizontalWinningCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8]];
+    private readonly diagonalWinningCombos = [[0, 4, 8], [2, 4, 6]];
+    private readonly winningCombos = [...this.verticalWinningCombos, ...this.horizontalWinningCombos, ...this.diagonalWinningCombos]
+
     constructor() {
         this.resetBoard();
+    }
+
+    public get game(): Game {
+        return {
+            board: this.board,
+            winner: this.checkForWinner(),
+            playerLastMove: this.lastPlayerTurn,
+            playerCurrentMove: this.currentPlayerTurn 
+        }
     }
 
     public startGame(): Game {
         this.resetBoard();
         this.currentPlayerTurn = 0;
-
-        return {
-            board: this.board,
-            winner: undefined,
-            playerLastMove: undefined,
-            playerCurrentMove:  this.currentPlayerTurn
-        }
+        return this.game
     }
 
     public placeMove(personId: number, xloc: number, yloc: number): Game {
@@ -49,24 +58,24 @@ export class TicTacToeService {
 
         this.board[yloc][xloc] = personPiece
         this.currentPlayerTurn = 1 - personId; // Kind of hacky way to toggle
+        this.lastPlayerTurn = personId
 
-        return {
-            board: this.board,
-            winner: this.checkForWinner(),
-            playerLastMove: personId,
-            playerCurrentMove: this.currentPlayerTurn 
-        }
+        return this.game
     }
 
     
-    public checkForWinner(): number | null {
-        for (const row of this.board) {
-            const filledRow = row.filter(x => x != this.defaultPosition);
-            if (filledRow.length == 3 && (new Set(filledRow)).size == 1) {
-                console.log('Win by horizontal row')
-            }    
+    public checkForWinner(player: number = this.lastPlayerTurn): boolean {
+        const flatBoard = __.flatten(this.board)
+        const playerPiece = this.personMap.get(player)
+        const playerLocs = (flatBoard.map( (position, index) => position == playerPiece ? index : -1)).filter( (x: number) => x != -1)
+
+        for (const combo of this.winningCombos) {
+            const isWinner = combo.every(x => playerLocs.includes(x))
+            if (isWinner) {
+                return true;
+            }
         }
-        return;
+        return false;
     }
 
     private isValidPosition(position: number) {

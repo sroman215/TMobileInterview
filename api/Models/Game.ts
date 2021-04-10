@@ -1,6 +1,6 @@
 export class Game {
     board: Array<Array<string>>;
-    winner: number
+    winner: boolean
     playerLastMove: number;
     playerCurrentMove: number;
 }

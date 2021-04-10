@@ -45,9 +45,42 @@ describe('TicTacToeService', () => {
   })
 
   describe('winner tests', () => {
-    it ('full row should win', () => {
-      service.board = [['O','O','O'], ['-','-','-'], ['-','-','-']]
-      service.checkForWinner()
+    describe('horizontal win tests', () => {
+      it ('full row should win', () => {
+        service.board = [['O','O','O'], ['-','-','-'], ['-','-','-']]
+        expect(service.checkForWinner()).to.be.true
+      })
+      it ('non-full row should not win', () => {
+        service.board = [['X','O','O'], ['-','-','-'], ['-','-','-']]
+        expect(service.checkForWinner()).to.be.false
+      })
+    })
+
+    describe('vertical win tests', () => {
+      it ('full row should win', () => {
+        service.board = [['O','-','-'], ['O','-','-'], ['O','-','-']]
+        expect(service.checkForWinner()).to.be.true
+      })
+      it ('non-full row should not win', () => {
+        service.board = [['X','-','-'], ['O','-','-'], ['O','-','-']]
+        expect(service.checkForWinner()).to.be.false
+      })
+    })
+
+    describe('diagonal win tests', () => {
+      it ('full row should win', () => {
+        service.board = [['O','-','-'], ['-','O','-'], ['-','-','O']]
+        expect(service.checkForWinner()).to.be.true
+      })
+      it ('non-full row should not win', () => {
+        service.board = [['O','-','-'], ['-','O','-'], ['-','-','X']]
+        expect(service.checkForWinner()).to.be.false
+      })
+    })
+  
+    it('check winner works for specific players', () => {
+      service.board = [['O','-','-'], ['-','O','-'], ['-','-','O']]
+      expect(service.checkForWinner(0)).to.be.false
     })
   })
 

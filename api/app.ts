@@ -13,7 +13,7 @@ const ticTacToeRouter = new TicTacToeRouter(ticTacToeService);
 
 // API layer to hit via the frontend or via brower
 app.get('/api', (req: Request, res: Response) => res.status(200).json({message: 'HELLO WORLD'}))
-app.get('/api/ttt/board', (req: Request, res: Response) => ticTacToeRouter.getBoard(req, res) )
+app.get('/api/ttt/board', (req: Request, res: Response) => ticTacToeRouter.getGame(req, res) )
 
 // Default route used to serve the frontend
 app.use('/', express.static(path.join(__dirname, '../client')));
