@@ -1,9 +1,0 @@
-{
-    "version": "1.0.0",
-    "tasks": [
-        {
-            "label": "Client Build and Watch",
-            "command": "npm run build:watch"
-        }
-    ]
-}
