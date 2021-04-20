@@ -38,10 +38,6 @@ export class TicTacToeService {
     }
 
     public placeMove(personId: number, xloc: number, yloc: number): Game {
-        if (this.game.winner) {
-            throw new Error('Game already won. Start a new game to continue')
-        }
-
         if (personId != this.currentPlayerTurn) {
             throw new Error (`Player ${personId} is trying to cheat `)
         }
