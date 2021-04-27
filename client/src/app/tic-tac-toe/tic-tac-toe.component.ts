@@ -14,6 +14,7 @@ export class TicTacToeComponent {
   currentPlayerTurn: number = 0;
   winner: number;
 
+  value = '';
   public personMap: Map<number, string> = new Map([
     [0, 'X'],
     [1, 'O']
@@ -53,6 +54,13 @@ export class TicTacToeComponent {
     this.currentPlayerTurn = val.playerCurrentMove;
     this.winner = undefined;
     this.message = JSON.stringify(val)
+  }
+
+  async evaluate() {
+    const reqObj: any = {val: 24};
+    const val: string = <string>await this.http.post('/api/checkwriter', reqObj).toPromise(); 
+    this.value = val;
+    console.log(val)
   }
 
 }
